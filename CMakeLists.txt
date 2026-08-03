@@ -11,8 +11,9 @@ qt_add_executable(InifynityMacro
     gui/mainwindow.cpp
     gui/mainwindow.h
     gui/mainwindow.ui
-    # engine/macroengine.h
+    engine/macroengine.h
     engine/macroengine.c
+    resources/app.rc
 )
 target_include_directories(InifynityMacro PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/engine

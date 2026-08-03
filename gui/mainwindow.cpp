@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     resize(742, 465);
-    this->setWindowTitle("Inifynity Macro");
+    this->setWindowTitle("Inifynity Macro v0.1");
 
     ui->btnStop->setEnabled(false);
 
