@@ -16,9 +16,7 @@ A lightweight Windows auto-clicker written in C and Qt.
 
 Download the latest release from the **[Releases](https://github.com/inifynastic/Inifynity-Macro/releases)** page.
 
-## Build
-
-Requirements:
+## Tools
 
 - Qt 6.11+
 - CMake
