@@ -25,7 +25,7 @@ private slots:
 private:
 
     Ui::MainWindow *ui;
-    QKeySequence hotkey = QKeySequence(Qt::Key_F6);
+    QKeySequence hotkey = QKeySequence(Qt::Key_F6); // Temporary Solution ofc
     bool flag = false;
 
 protected:

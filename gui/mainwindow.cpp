@@ -51,7 +51,7 @@ void MainWindow::handlechangedTimer(){
     macro_set_timer(mstime);
 }
 
-bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result){
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result){ // Forgot but this is temporary solution for keybines
     MSG* msg = reinterpret_cast<MSG*>(message);
     if (msg->message == WM_HOTKEY) {
         if (msg->wParam == 1) {
