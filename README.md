@@ -12,7 +12,7 @@ A lightweight Windows auto-clicker written in C and Qt C++.
 - Native Windows input using `SendInput`
 - Qt 6 desktop interface
 
-# Future Plans
+## Future Plans
 - Expand to Keyboard automation (Plans for version 1.0.0)
 - Macro Recording
 - Linux(wayland ONLY!) explains
