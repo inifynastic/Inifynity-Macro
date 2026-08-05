@@ -6,9 +6,9 @@
 
 static HANDLE thread;
 static LONG clickingFlag = 0;
-static int timer = 500;
+static int timer = 100;
 
-DWORD WINAPI macroThread(LPVOID unused){
+DWORD WINAPI ckickingThread(LPVOID unused){
     INPUT input = {0};
     input.type = INPUT_MOUSE; // Choose mouse as input
     while (InterlockedCompareExchange(&clickingFlag, 0, 0)){
@@ -26,7 +26,7 @@ DWORD WINAPI macroThread(LPVOID unused){
 // SendInput(number_of_inputs, input_array, size_of_input_struct);
 void macro_start_click(){
     InterlockedExchange(&clickingFlag, 1);
-    thread = CreateThread(NULL, 0, macroThread, NULL, 0, NULL);
+    thread = CreateThread(NULL, 0, ckickingThread, NULL, 0, NULL);
     return;
 }
 

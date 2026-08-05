@@ -8,8 +8,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    resize(742, 465);
-    this->setWindowTitle("Inifynity Macro v0.1");
 
     ui->btnStop->setEnabled(false);
 
@@ -30,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
     RegisterHotKey((HWND)winId(),1, 0,  VK_F6);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
+    UnregisterHotKey((HWND)winId(), 1);
     delete ui;
 }
 
