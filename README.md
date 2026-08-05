@@ -1,6 +1,6 @@
 # Inifynity Macro
 
-A lightweight Windows auto-clicker written in C and Qt.
+A lightweight Windows auto-clicker written in C and Qt C++.
 
 > Status: Early development (v0.1.0)
 
@@ -11,6 +11,12 @@ A lightweight Windows auto-clicker written in C and Qt.
 - Global hotkey (F6)
 - Native Windows input using `SendInput`
 - Qt 6 desktop interface
+
+# Future Plans
+- Expand to Keyboard automation (Plans for version 1.0.0)
+- Macro Recording
+- Linux(wayland ONLY!) explains
+- Polish it
 
 ## Download
 
