@@ -28,7 +28,5 @@ private:
     QKeySequence hotkey = QKeySequence(Qt::Key_F6); // Temporary Solution ofc
     bool flag = false;
 
-protected:
-    bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
 };
 #endif // MAINWINDOW_H

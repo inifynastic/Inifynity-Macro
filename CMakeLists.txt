@@ -11,13 +11,19 @@ qt_add_executable(InifynityMacro
     gui/mainwindow.cpp
     gui/mainwindow.h
     gui/mainwindow.ui
+    engine/converter.hpp
+    engine/converter.cpp
     engine/macroengine.h
     engine/macroengine.c
+    engine/handlehotkey.h
+    engine/handlehotkey.c
     resources/app.rc
+
 )
 target_include_directories(InifynityMacro PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/engine
-    ${CMAKE_CURRENT_SOURCE_DIR}/gui
+    ${CMAKE_CURRENT_SOURCE_DIR}/guis
+    ${CMAKE_SOURCE_DIR}/shared
 )
 target_link_libraries(InifynityMacro
     PRIVATE
