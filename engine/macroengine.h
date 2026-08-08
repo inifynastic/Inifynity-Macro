@@ -7,9 +7,11 @@
 extern "C" {
 #endif
 
-void macro_start_click();
-void macro_stop_click();
+
+void macro_toggle();
 void macro_set_timer(int milliseconds);
+void start_hotkey_engine();
+void stop_hotkey_engine();
 
 #ifdef __cplusplus
 }

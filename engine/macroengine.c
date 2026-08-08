@@ -6,10 +6,10 @@
 
 static HANDLE thread;
 static LONG clickingFlag = 0;
-static int timer = 100;
+static LONG timer = 100;
 
 DWORD WINAPI ckickingThread(LPVOID unused){
-    INPUT input = {0};
+  INPUT input = {0};
     input.type = INPUT_MOUSE; // Choose mouse as input
     while (InterlockedCompareExchange(&clickingFlag, 0, 0)){
 
@@ -17,20 +17,35 @@ DWORD WINAPI ckickingThread(LPVOID unused){
         SendInput(1, &input, sizeof(INPUT));
         input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
         SendInput(1, &input, sizeof(INPUT));
-        Sleep(timer);
+  
+	// The line below uses help from AI since I could not find any solution so be aware of this
+		LONG remaining = InterlockedCompareExchange(&timer, 0, 0); // Trickey but is getting timer value
+        while (remaining > 0 && InterlockedCompareExchange(&clickingFlag, 0, 0)){
+            DWORD chunk = remaining > 50 ? 50 : (DWORD)remaining;
+            Sleep(chunk);
+            remaining -= chunk;
+        }
     }
+	
     return 0;
 }
 
 
 // SendInput(number_of_inputs, input_array, size_of_input_struct);
-void macro_start_click(){
+static void macro_start_click() {
+  if (clickingFlag) {
+	  return;
+  }
     InterlockedExchange(&clickingFlag, 1);
     thread = CreateThread(NULL, 0, ckickingThread, NULL, 0, NULL);
     return;
 }
 
-void macro_stop_click(){
+static void macro_stop_click() {
+	  if (!clickingFlag) {
+	  return;
+          }
+	  
     InterlockedExchange(&clickingFlag, 0);
     WaitForSingleObject(thread, INFINITE);
     CloseHandle(thread);
@@ -38,10 +53,27 @@ void macro_stop_click(){
     return;
 }
 
+void macro_toggle() {
+  if (clickingFlag) {
+    macro_stop_click();
+	return;
+  }
+  macro_start_click();
+}
+
 void macro_set_timer(int milliseconds){
-    if(milliseconds < MIN_CLICK_INTERVAL_MS){
-        timer = MIN_CLICK_INTERVAL_MS;
-        return;
-    }
-    timer = milliseconds;
+  if (milliseconds < MIN_CLICK_INTERVAL_MS) {
+	  InterlockedExchange(&timer, 100);
+          return;
+  }
+  InterlockedExchange(&timer, milliseconds);
+}
+
+void start_hotkey_engine() {
+	static int called = 0;
+        if (called)
+          return;
+		
+        called = 1;
+
 }

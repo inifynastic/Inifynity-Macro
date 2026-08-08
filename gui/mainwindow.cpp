@@ -34,13 +34,13 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::handlebtnStart(){
-    macro_start_click();
+    macro_toggle();
     ui->btnStart->setEnabled(false);
     ui->btnStop->setEnabled(true);
 }
 
 void MainWindow::handlebtnStop(){
-    macro_stop_click();
+    macro_toggle();
     ui->btnStart->setEnabled(true);
     ui->btnStop->setEnabled(false);
 }
@@ -51,21 +51,3 @@ void MainWindow::handlechangedTimer(){
     macro_set_timer(mstime);
 }
 
-bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result){ // Forgot but this is temporary solution for keybines
-    MSG* msg = reinterpret_cast<MSG*>(message);
-    if (msg->message == WM_HOTKEY) {
-        if (msg->wParam == 1) {
-
-            qDebug() << "Hotkey pressed!";
-            if (!flag) {
-                handlebtnStart();
-                flag = true;
-            } else {
-                handlebtnStop();
-                flag = false;
-            }
-            return true;
-        }
-    }
-    return false;
-}
