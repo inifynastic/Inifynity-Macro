@@ -1,11 +1,16 @@
-// This is useless for now. but will work in future so am gonna leave it like this
+// Why did I do this to myself. THIS THING TOOK FORVER TO MAKE
+// BECASUE I WANTED TO MAKE IT CLEAN BUT AT THE COST OF MY SANITY
+// I had to build an entire conversion layer
 
-
-#ifndef CONVERTER_HPP
-#define CONVERTER_HPP
-
+#pragma once
 #include <windows.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 UINT convert_QKey_UINT(const void* QKey);
 
+#ifdef __cplusplus
+}
 #endif

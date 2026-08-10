@@ -8,7 +8,8 @@ extern "C" {
 #endif
 
 int register_hotkey(const void* qtHotkey);
-void detect_global_hotkey_press();
+void start_global_hotkey_thread();
+void stop_global_hotkey_thread();
 	
 #ifdef __cplusplus
 }

@@ -2,7 +2,7 @@
 
 #include "macroengine.h"
 #include <Windows.h>
-
+#include "handlehotkey.h"
 
 static HANDLE thread;
 static LONG clickingFlag = 0;
@@ -73,7 +73,18 @@ void start_hotkey_engine() {
 	static int called = 0;
         if (called)
           return;
-		
         called = 1;
-
+		start_global_hotkey_thread();
 }
+
+void stop_hotkey_engine() {
+	static int called = 0;
+        if (called)
+          return;
+        called = 1;
+		stop_global_hotkey_thread();
+}
+
+void register_new_hotkey(void* qKey) {
+	register_hotkey(qKey);
+}  

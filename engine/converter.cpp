@@ -1,12 +1,11 @@
 // This alone cost me my sanity to build. It took along time but it was cuz of me being lazy
-#pragma once
 
 #include "converter.hpp"
 #include <QKeySequence>
 #include <cstdlib>
 
 UINT convert_QKey_UINT(
-    const void *QKey) { // void* is not nice. it may break the code.
+    const void *QKey) { // void* is not nice. it may cause undefined behaviour.
 
   if (!QKey) {
 	  std::abort();
@@ -23,3 +22,4 @@ default:
   return 0;
 }
 }
+// TODO: Add Numbpad Support

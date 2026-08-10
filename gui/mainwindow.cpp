@@ -1,15 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "macroengine.h"
-#include <Windows.h>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
 
-    ui->btnStop->setEnabled(false);
+  start_hotkey_engine();
+  register_new_hotkey(&hotkey);
+
+  ui->setupUi(this);
+
+	 ui->btnStop->setEnabled(false);
+
+
 
     connect(ui->btnStart, &QPushButton::clicked, this, &MainWindow::handlebtnStart);
     connect(ui->btnStop, &QPushButton::clicked, this, &MainWindow::handlebtnStop);
@@ -18,19 +21,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->minBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
     connect(ui->secBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
     connect(ui->milSecBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
-    
-    connect(ui->edithotKey, &QKeySequenceEdit::keySequenceChanged, this, [this](const QKeySequence &keySequence){
-        hotkey = keySequence;
-    });
-    ui->edithotKey->setEnabled(false); // Temporary solution cuz I am too lazy to make editable hot key
-    // TODO: Make the hotkey editable
 
-    RegisterHotKey((HWND)winId(),1, 0,  VK_F6);
+    connect(ui->edithotKey, &QKeySequenceEdit::keySequenceChanged, this,
+            [this](const QKeySequence &keySequence) {
+              hotkey = keySequence;
+			   register_new_hotkey(&hotkey);
+
+    });
+
 }
 
 MainWindow::~MainWindow(){
-    UnregisterHotKey((HWND)winId(), 1);
-    delete ui;
+	stop_hotkey_engine();
+	delete ui;
+  
 }
 
 void MainWindow::handlebtnStart(){

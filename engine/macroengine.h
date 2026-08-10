@@ -12,6 +12,7 @@ void macro_toggle();
 void macro_set_timer(int milliseconds);
 void start_hotkey_engine();
 void stop_hotkey_engine();
+void register_new_hotkey(void* qKey);
 
 #ifdef __cplusplus
 }
