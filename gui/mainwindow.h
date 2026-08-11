@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 #include <QKeySequence>
+#include "enginebridge.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,8 +24,9 @@ private slots:
     void handlebtnStop();
     void handlechangedTimer();
 private:
-
-    Ui::MainWindow *ui;
+	Ui::MainWindow *ui;
+	EngineBridge bridge;
+	
     QKeySequence hotkey = QKeySequence(Qt::Key_F6); // Temporary Solution ofc
 
 };

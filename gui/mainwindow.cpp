@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "macroengine.h"
+#include "inifynityengine.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
-  start_hotkey_engine();
+  start_hotkey_engine(&bridge);
   register_new_hotkey(&hotkey);
 
   ui->setupUi(this);
@@ -38,13 +38,13 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::handlebtnStart(){
-    macro_toggle();
+    clicker_engine_toggle();
     ui->btnStart->setEnabled(false);
     ui->btnStop->setEnabled(true);
 }
 
 void MainWindow::handlebtnStop(){
-    macro_toggle();
+    clicker_engine_toggle();
     ui->btnStart->setEnabled(true);
     ui->btnStop->setEnabled(false);
 }
@@ -52,6 +52,6 @@ void MainWindow::handlebtnStop(){
 void MainWindow::handlechangedTimer(){
     int mstime = ui->hurBox->value() * 3600000 + ui->minBox->value() * 60000 + ui->secBox->value() * 1000 + ui->milSecBox->value();
     // I used AI for above cuz I sux at math.
-    macro_set_timer(mstime);
+    clicker_engine_timer(mstime);
 }
 

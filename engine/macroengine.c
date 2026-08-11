@@ -2,7 +2,6 @@
 
 #include "macroengine.h"
 #include <Windows.h>
-#include "handlehotkey.h"
 
 static HANDLE thread;
 static LONG clickingFlag = 0;
@@ -54,12 +53,13 @@ static void macro_stop_click() {
 }
 
 void macro_toggle() {
-  if (clickingFlag) {
+  if (InterlockedCompareExchange(&clickingFlag,0,0)) {
     macro_stop_click();
 	return;
   }
   macro_start_click();
 }
+
 
 void macro_set_timer(int milliseconds){
   if (milliseconds < MIN_CLICK_INTERVAL_MS) {
@@ -68,23 +68,3 @@ void macro_set_timer(int milliseconds){
   }
   InterlockedExchange(&timer, milliseconds);
 }
-
-void start_hotkey_engine() {
-	static int called = 0;
-        if (called)
-          return;
-        called = 1;
-		start_global_hotkey_thread();
-}
-
-void stop_hotkey_engine() {
-	static int called = 0;
-        if (called)
-          return;
-        called = 1;
-		stop_global_hotkey_thread();
-}
-
-void register_new_hotkey(void* qKey) {
-	register_hotkey(qKey);
-}  

@@ -1,6 +1,6 @@
 #include "handlehotkey.h"
 #include "converter.hpp"
-#include "macroengine.h"
+#include "inifynityengine.h"
 #include <winuser.h>
 
 #define HOTKEY_ID 1
@@ -18,7 +18,7 @@ DWORD WINAPI global_hotkey_thread(LPVOID unused){
   while (GetMessage(&msg, NULL, 0, 0) > 0) {
 
     if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_ID) {
-      macro_toggle();
+      clicker_engine_toggle();
 	  // TODO QT Function class let QT know its enabled
 	  continue;
     }
