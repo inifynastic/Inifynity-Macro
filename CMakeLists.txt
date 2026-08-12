@@ -11,6 +11,11 @@ qt_add_executable(InifynityMacro
     gui/mainwindow.cpp
     gui/mainwindow.h
     gui/mainwindow.ui
+	engine/enginebridge.hpp
+	engine/enginebridge.cpp
+
+	engine/inifynityengine.hpp
+	engine/inifynityengine.cpp
     engine/converter.hpp
     engine/converter.cpp
     engine/macroengine.h

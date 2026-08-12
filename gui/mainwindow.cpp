@@ -1,18 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "inifynityengine.h"
+#include "inifynityengine.hpp"
+#include "enginebridge.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
-  start_hotkey_engine(&bridge);
-  register_new_hotkey(&hotkey);
-
-  ui->setupUi(this);
-
+	ui->setupUi(this);
+  
+	start_engine();
+	register_new_hotkey(&hotkey);
+	EngineBridge* bridge = get_engine_bridge();
 	 ui->btnStop->setEnabled(false);
-
-
 
     connect(ui->btnStart, &QPushButton::clicked, this, &MainWindow::handlebtnStart);
     connect(ui->btnStop, &QPushButton::clicked, this, &MainWindow::handlebtnStop);
@@ -23,30 +22,25 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->milSecBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
 
     connect(ui->edithotKey, &QKeySequenceEdit::keySequenceChanged, this,
-            [this](const QKeySequence &keySequence) {
-              hotkey = keySequence;
-			   register_new_hotkey(&hotkey);
-
-    });
+            &MainWindow::handleHotkeyChange);
+    connect(bridge, &EngineBridge::notify_macro_on, this, &MainWindow::handleMacroOn);
+ 	connect(bridge, &EngineBridge::notify_macro_off, this, &MainWindow::handleMacroOff);
+   
 
 }
 
 MainWindow::~MainWindow(){
-	stop_hotkey_engine();
+	stop_engine();
 	delete ui;
   
 }
 
 void MainWindow::handlebtnStart(){
     clicker_engine_toggle();
-    ui->btnStart->setEnabled(false);
-    ui->btnStop->setEnabled(true);
 }
 
 void MainWindow::handlebtnStop(){
     clicker_engine_toggle();
-    ui->btnStart->setEnabled(true);
-    ui->btnStop->setEnabled(false);
 }
 
 void MainWindow::handlechangedTimer(){
@@ -55,3 +49,19 @@ void MainWindow::handlechangedTimer(){
     clicker_engine_timer(mstime);
 }
 
+void MainWindow::handleHotkeyChange(const QKeySequence &keySequence) {
+	hotkey = keySequence;
+	register_new_hotkey(&hotkey);
+}
+
+void MainWindow::handleMacroOn() {
+  ui->btnStart->setEnabled(false);
+    ui->btnStop->setEnabled(true);
+ 
+}
+
+void MainWindow::handleMacroOff() {
+  ui->btnStart->setEnabled(true);
+    ui->btnStop->setEnabled(false);
+
+}  

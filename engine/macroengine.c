@@ -4,8 +4,11 @@
 #include <Windows.h>
 
 static HANDLE thread;
-static LONG clickingFlag = 0;
 static LONG timer = 100;
+LONG clickingFlag = 0;
+
+Callback emit_on = NULL;
+Callback emit_off = NULL;
 
 DWORD WINAPI ckickingThread(LPVOID unused){
   INPUT input = {0};
@@ -32,7 +35,7 @@ DWORD WINAPI ckickingThread(LPVOID unused){
 
 // SendInput(number_of_inputs, input_array, size_of_input_struct);
 static void macro_start_click() {
-  if (clickingFlag) {
+  if (InterlockedCompareExchange(&clickingFlag, 0, 0)) {
 	  return;
   }
     InterlockedExchange(&clickingFlag, 1);
@@ -52,14 +55,20 @@ static void macro_stop_click() {
     return;
 }
 
-void macro_toggle() {
+void toggle_macro() {
   if (InterlockedCompareExchange(&clickingFlag,0,0)) {
     macro_stop_click();
+	if (emit_off != NULL) {
+		emit_off();
+	}
 	return;
   }
   macro_start_click();
-}
-
+  if (emit_on != NULL) {
+		emit_on();
+	}
+  }
+ 
 
 void macro_set_timer(int milliseconds){
   if (milliseconds < MIN_CLICK_INTERVAL_MS) {

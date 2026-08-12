@@ -1,7 +1,6 @@
 #include "handlehotkey.h"
 #include "converter.hpp"
-#include "inifynityengine.h"
-#include <winuser.h>
+#include "macroengine.h"
 
 #define HOTKEY_ID 1
 #define THREADSTOP_MSG (WM_APP + 1)
@@ -18,7 +17,7 @@ DWORD WINAPI global_hotkey_thread(LPVOID unused){
   while (GetMessage(&msg, NULL, 0, 0) > 0) {
 
     if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_ID) {
-      clicker_engine_toggle();
+      toggle_macro();
 	  // TODO QT Function class let QT know its enabled
 	  continue;
     }
