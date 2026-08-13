@@ -21,12 +21,13 @@ void clicker_engine_timer(int milliseconds){ // I didnt add it here cuz it can c
     emit_on = &emit_macro_on;
 	emit_off = &emit_macro_off;
   start_global_hotkey_thread();
-
+  init_clicker_engine();
   
 }
 
 void stop_engine(void) {
-		stop_global_hotkey_thread();
+  stop_global_hotkey_thread();
+  exit_clicker_engine();
 }
 
 void register_new_hotkey(void* qKey) {

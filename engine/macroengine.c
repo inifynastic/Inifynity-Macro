@@ -6,6 +6,7 @@
 static HANDLE thread;
 static LONG timer = 100;
 LONG clickingFlag = 0;
+static LONG terminateFlag = 0;
 
 Callback emit_on = NULL;
 Callback emit_off = NULL;
@@ -13,7 +14,12 @@ Callback emit_off = NULL;
 DWORD WINAPI ckickingThread(LPVOID unused){
   INPUT input = {0};
     input.type = INPUT_MOUSE; // Choose mouse as input
-    while (InterlockedCompareExchange(&clickingFlag, 0, 0)){
+    while (!InterlockedCompareExchange(&terminateFlag, 0, 0)) {
+      if (!InterlockedCompareExchange(&clickingFlag, 0, 0)) {
+		Sleep(10);
+        continue;
+      }
+      
 
         input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
         SendInput(1, &input, sizeof(INPUT));
@@ -22,15 +28,32 @@ DWORD WINAPI ckickingThread(LPVOID unused){
   
 	// The line below uses help from AI since I could not find any solution so be aware of this
 		LONG remaining = InterlockedCompareExchange(&timer, 0, 0); // Trickey but is getting timer value
-        while (remaining > 0 && InterlockedCompareExchange(&clickingFlag, 0, 0)){
+        while (remaining > 0 && InterlockedCompareExchange(&clickingFlag, 0, 0 )){
             DWORD chunk = remaining > 50 ? 50 : (DWORD)remaining;
-            Sleep(chunk);
+            Sleep(chunk); //There is a delay in miliseconds rn. It can be ignored for now but if it creates a problem use another method
             remaining -= chunk;
+			if (!InterlockedCompareExchange(&clickingFlag, 0, 0)) break;
         }
+
     }
 	
     return 0;
 }
+
+void init_clicker_engine() {
+  thread = CreateThread(NULL, 0, ckickingThread, NULL, 0, NULL);
+  if (!thread) {
+	  return;
+  }    
+}
+
+void exit_clicker_engine() {
+	InterlockedExchange(&terminateFlag, 1);
+	WaitForSingleObject(thread, INFINITE);
+    CloseHandle(thread);
+    thread = NULL;
+
+}  
 
 
 // SendInput(number_of_inputs, input_array, size_of_input_struct);
@@ -39,7 +62,6 @@ static void macro_start_click() {
 	  return;
   }
     InterlockedExchange(&clickingFlag, 1);
-    thread = CreateThread(NULL, 0, ckickingThread, NULL, 0, NULL);
     return;
 }
 
@@ -49,9 +71,6 @@ static void macro_stop_click() {
           }
 	  
     InterlockedExchange(&clickingFlag, 0);
-    WaitForSingleObject(thread, INFINITE);
-    CloseHandle(thread);
-    thread = NULL;
     return;
 }
 
@@ -77,3 +96,4 @@ void macro_set_timer(int milliseconds){
   }
   InterlockedExchange(&timer, milliseconds);
 }
+

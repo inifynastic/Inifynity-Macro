@@ -18,6 +18,9 @@ void toggle_macro();
 
 void macro_set_timer(int milliseconds);
 
+void init_clicker_engine(void);
+void exit_clicker_engine(void);
+
 #ifdef __cplusplus
 }
 #endif
