@@ -21,6 +21,7 @@ But anyone is free to use it. (Under GNU GPL 3.0 License)
 ## Patch Notes for v0.2.0
 - Added Global Hotkeys
 - Optimized the thread system for better performance
+- Bug Fixes
 
 ## Plans for v.0.3.0
 - Add system logs and proper error handling
