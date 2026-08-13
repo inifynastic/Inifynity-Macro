@@ -7,7 +7,7 @@ This project was built for my personal use and for my friends.
 But anyone is free to use it. (Under GNU GPL 3.0 License)
 
 
-> Status: Early development (v0.2.0) Alpha
+> Status: Early development (v.0.2.0)
 
 
 ## Features
@@ -18,7 +18,7 @@ But anyone is free to use it. (Under GNU GPL 3.0 License)
 - Native Window API with raw C.
 - Qt 6 desktop interface
 
-## Patch Notes for v0.2.0
+## Patch Notes for v.0.2.0
 - Added Global Hotkeys
 - Optimized the thread system for better performance
 - Bug Fixes
@@ -29,7 +29,7 @@ But anyone is free to use it. (Under GNU GPL 3.0 License)
 - Configuration file.
 
 ## Future Plans
-- Expand to Keyboard automation (Plans for version 1.0.0)
+- Expand to Keyboard automation (Plans for v.1.0.0)
 - Macro Recording
 - Linux(wayland ONLY!) expansion
 - Polish it
