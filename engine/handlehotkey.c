@@ -18,7 +18,6 @@ DWORD WINAPI global_hotkey_thread(LPVOID unused){
 
     if (msg.message == WM_HOTKEY && msg.wParam == HOTKEY_ID) {
       toggle_macro();
-	  // TODO QT Function class let QT know its enabled
 	  continue;
     }
 
