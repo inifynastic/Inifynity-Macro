@@ -1,0 +1,17 @@
+// Error Codes:-
+
+X(100, "Successfully mouse left down")
+X(101, "Successfully mouse left up")
+X(102, "Successfully created thread")
+X(103, "Thread closed successfully")
+X(104, "Hotkey registered")
+X(105, "Hotkey thread ended")
+X(106, "Thread message sent")
+
+X(200, "Failed mouse left down")
+X(201, "Failed mouse left up")
+X(202, "Failed to create thread")
+X(203, "Failed to close thread")
+X(204, "Hotkey not registered")
+X(205, "Hotkey not unregistered")
+X(206, "Thread message not sent")

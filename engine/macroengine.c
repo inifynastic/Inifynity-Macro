@@ -1,9 +1,11 @@
-#define MIN_CLICK_INTERVAL_MS 100
-
+#include "enginelogs.h"
 #include "macroengine.h"
 #include <Windows.h>
 
-static HANDLE thread;
+#define MIN_CLICK_INTERVAL_MS 100
+
+
+static HANDLE thread = NULL;
 static LONG timer = 100;
 LONG clickingFlag = 0;
 static LONG terminateFlag = 0;
@@ -22,9 +24,20 @@ DWORD WINAPI ckickingThread(LPVOID unused){
       
 
         input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-        SendInput(1, &input, sizeof(INPUT));
+        if (!SendInput(1, &input, sizeof(INPUT))) {
+			send_logs(200); //Failed mouse left down.
+        } else {
+          send_logs(100); //Successfully mouse left down.
+        }
+        
+        
         input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-        SendInput(1, &input, sizeof(INPUT));
+        if (!SendInput(1, &input, sizeof(INPUT))) {
+			send_logs(201); //Failed mouse left up.
+        } else {
+          send_logs(101); // Succesfully mouse left up.
+        }
+
   
 	// The line below uses help from AI since I could not find any solution so be aware of this
 		LONG remaining = InterlockedCompareExchange(&timer, 0, 0); // Trickey but is getting timer value
@@ -43,26 +56,34 @@ DWORD WINAPI ckickingThread(LPVOID unused){
 void init_clicker_engine() {
   thread = CreateThread(NULL, 0, ckickingThread, NULL, 0, NULL);
   if (!thread) {
+	  send_logs(202); // Thread not created!
 	  return;
-  }    
+  } else {
+	  send_logs(102); // Thread Created!
+    }
+  
 }
 
 void exit_clicker_engine() {
-	InterlockedExchange(&terminateFlag, 1);
+  InterlockedExchange(&terminateFlag, 1); 
+
 	WaitForSingleObject(thread, INFINITE);
-    CloseHandle(thread);
+        if (!CloseHandle(thread)) {
+			send_logs(203); // Thread not Closed!
+        } else {
+			send_logs(103);  // Thread Closed!
+        }
+        
     thread = NULL;
 
 }  
 
 
-// SendInput(number_of_inputs, input_array, size_of_input_struct);
 static void macro_start_click() {
   if (InterlockedCompareExchange(&clickingFlag, 0, 0)) {
 	  return;
   }
     InterlockedExchange(&clickingFlag, 1);
-    return;
 }
 
 static void macro_stop_click() {
