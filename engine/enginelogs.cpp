@@ -19,7 +19,7 @@ typedef struct {
 	std::string message;
 } LogData;
 
-extern QJsonArray jsonList;
+QJsonArray jsonList;
 
 QJsonObject translate_qobject(const LogData& LogEntry) {
   QJsonObject logObj;
