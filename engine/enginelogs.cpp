@@ -1,9 +1,17 @@
 #pragma once
 
 #include "enginelogs.h"
-#include "vector"
 #include "string"
+
 #include <chrono>
+#include <fstream>
+
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <qjsonobject.h>
+#include <qobject.h>
 
 typedef struct {
   std::int64_t timestamp;
@@ -11,7 +19,28 @@ typedef struct {
 	std::string message;
 } LogData;
 
-extern std::vector<LogData> logsList;
+extern QJsonArray jsonList;
+
+QJsonObject translate_qobject(const LogData& LogEntry) {
+  QJsonObject logObj;
+  logObj["timestamp"] = LogEntry.timestamp;
+  logObj["statuscode"] = LogEntry.statusCode;
+  logObj["message"] = QString::fromStdString(LogEntry.message);
+
+  return logObj;
+}
+
+void file_logger(const QJsonArray& jsonList) {
+  
+  QJsonDocument document(jsonList);
+
+  std::ofstream jsonFile("log.json");
+
+  if (!jsonFile) {
+	  return;
+    }
+  jsonFile << document.toJson().toStdString();
+}  
 
 void send_logs(int logCode) {
   LogData logEntry;
@@ -29,5 +58,9 @@ void send_logs(int logCode) {
 #include "logcode.def"
 #undef X
   }
-  logsList.push_back(logEntry);
+  jsonList.append(translate_qobject(logEntry));
+  file_logger(jsonList);
+  
 }
+
+
