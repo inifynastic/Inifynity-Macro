@@ -2,6 +2,7 @@
 #include "converter.hpp"
 #include "enginelogs.h"
 #include "macroengine.h"
+// Windows.h included at header
 
 #define HOTKEY_ID 1
 #define THREADSTOP_MSG (WM_APP + 1)
@@ -13,7 +14,7 @@ static DWORD thread_id = 0;
 
 DWORD WINAPI global_hotkey_thread(LPVOID unused){
   MSG msg;
-  if (!RegisterHotKey(NULL, HOTKEY_ID, 0, VK_F6)){
+  if (!RegisterHotKey(NULL, HOTKEY_ID, 0, (UINT)msg.wParam)){
 	send_logs(204); // Hot Key not registered.
         return 1;
   }

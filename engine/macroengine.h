@@ -2,6 +2,7 @@
 #define MACROENGINE_H
 
 #include <windows.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {

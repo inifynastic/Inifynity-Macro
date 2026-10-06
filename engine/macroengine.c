@@ -118,3 +118,7 @@ void macro_set_timer(int milliseconds){
   InterlockedExchange(&timer, milliseconds);
 }
 
+void change_click_mode() {
+}
+
+void change_click_type() {}

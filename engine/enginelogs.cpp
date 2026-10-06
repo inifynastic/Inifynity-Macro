@@ -10,8 +10,6 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <qjsonobject.h>
-#include <qobject.h>
 
 typedef struct {
   std::int64_t timestamp;
@@ -59,8 +57,7 @@ void send_logs(int logCode) {
 #undef X
   }
   jsonList.append(translate_qobject(logEntry));
-  file_logger(jsonList);
-  
+  file_logger(jsonList); 
 }
 
 
