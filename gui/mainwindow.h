@@ -24,7 +24,9 @@ private slots:
     void handlechangedTimer();
     void handleHotkeyChange(const QKeySequence &keySequence);
     void handleMacroOn();
-	void handleMacroOff();
+    void handleMacroOff();
+    void handleModeSwitch(bool checked); // Left, Right, Middle
+	void handleTypeSwitch(); // Double, Single, Hold
     
 private:
   Ui::MainWindow *ui;

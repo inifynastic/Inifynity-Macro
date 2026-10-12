@@ -5,6 +5,7 @@
 #include <QJsonValue>
 
 
-QJsonObject HandleData::parse_json(const std::string& value) {
-	
+QJsonObject HandleData::parse_json(const std::string& type, const std::string& value) {
+  extern QJsonObject object;
+  
 }  

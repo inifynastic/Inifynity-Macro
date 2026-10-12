@@ -9,4 +9,5 @@ void clicker_engine_timer(int milliseconds);
 EngineBridge* get_engine_bridge();
 void start_engine(void);
 void stop_engine(void);
-void register_new_hotkey(void* qKey);
+void register_new_hotkey(void *qKey);
+void switch_mode(int mode);

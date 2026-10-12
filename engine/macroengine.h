@@ -1,6 +1,8 @@
 #ifndef MACROENGINE_H
 #define MACROENGINE_H
 
+
+
 #include <windows.h>
 #include <stdbool.h>
 
@@ -21,6 +23,8 @@ void macro_set_timer(int milliseconds);
 
 void init_clicker_engine(void);
 void exit_clicker_engine(void);
+
+void change_click_mode(int mode);
 
 #ifdef __cplusplus
 }

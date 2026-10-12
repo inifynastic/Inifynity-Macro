@@ -37,3 +37,9 @@ void register_new_hotkey(void* qKey) {
 EngineBridge* get_engine_bridge(){
 	return &bridge;
 }
+
+void switch_mode(int mode) {
+	change_click_mode(mode);
+}
+
+void switch_type() {}

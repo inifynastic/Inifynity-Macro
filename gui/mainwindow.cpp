@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "inifynityengine.hpp"
 #include "enginebridge.hpp"
+#include <qradiobutton.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -11,7 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 	start_engine();
 	register_new_hotkey(&hotkey);
 	EngineBridge* bridge = get_engine_bridge();
-	 ui->btnStop->setEnabled(false);
+        ui->btnStop->setEnabled(false);
+		ui->leftClick->toggle();
 
     connect(ui->btnStart, &QPushButton::clicked, this, &MainWindow::handlebtnStart);
     connect(ui->btnStop, &QPushButton::clicked, this, &MainWindow::handlebtnStop);
@@ -20,12 +22,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->minBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
     connect(ui->secBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
     connect(ui->milSecBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
-
+	connect(ui->leftClick, &QRadioButton::toggled, this, &MainWindow::handleModeSwitch);
+	connect(ui->rightClick, &QRadioButton::toggled, this, &MainWindow::handleModeSwitch);
+	connect(ui->click_type, &QComboBox::currentIndexChanged, this, &MainWindow::handleTypeSwitch);
+        
     connect(ui->edithotKey, &QKeySequenceEdit::keySequenceChanged, this,
             &MainWindow::handleHotkeyChange);
     connect(bridge, &EngineBridge::notify_macro_on, this, &MainWindow::handleMacroOn);
  	connect(bridge, &EngineBridge::notify_macro_off, this, &MainWindow::handleMacroOff);
-   
+
 
 }
 
@@ -64,4 +69,22 @@ void MainWindow::handleMacroOff() {
   ui->btnStart->setEnabled(true);
     ui->btnStop->setEnabled(false);
 
+}
+
+void MainWindow::handleTypeSwitch() {
+
+}
+void MainWindow::handleModeSwitch(bool checked) {
+  if (sender() == ui->leftClick) {
+	  if (checked) {
+            switch_mode(1);
+			return;
+          }
+          
+          
+          
+  }  
+  if (checked) {
+	  switch_mode(0);
+  }
 }  
