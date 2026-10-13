@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "handledata.h"
 
 #include <QMainWindow>
 #include <QKeySequence>
@@ -18,9 +19,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-private slots:
-    void handlebtnStart();
-    void handlebtnStop();
+  private slots:
+	HandleData handler;
+
+    void handlebtnStartStop();
     void handlechangedTimer();
     void handleHotkeyChange(const QKeySequence &keySequence);
     void handleMacroOn();

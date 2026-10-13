@@ -2,21 +2,22 @@
 #include "ui_mainwindow.h"
 #include "inifynityengine.hpp"
 #include "enginebridge.hpp"
-#include <qradiobutton.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
-	ui->setupUi(this);
-  
-	start_engine();
-	register_new_hotkey(&hotkey);
-	EngineBridge* bridge = get_engine_bridge();
-        ui->btnStop->setEnabled(false);
-		ui->leftClick->toggle();
+  ui->setupUi(this);
+  ui->btnStop->setEnabled(false);
+  ui->leftClick->toggle();
 
-    connect(ui->btnStart, &QPushButton::clicked, this, &MainWindow::handlebtnStart);
-    connect(ui->btnStop, &QPushButton::clicked, this, &MainWindow::handlebtnStop);
+
+  start_engine();
+  register_new_hotkey(&hotkey);
+  EngineBridge *bridge = get_engine_bridge();
+
+
+    connect(ui->btnStart, &QPushButton::clicked, this, &MainWindow::handlebtnStartStop);
+    connect(ui->btnStop, &QPushButton::clicked, this, &MainWindow::handlebtnStartStop);
 
     connect(ui->hurBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
     connect(ui->minBox, &QSpinBox::valueChanged, this, &MainWindow::handlechangedTimer);
@@ -34,19 +35,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
-MainWindow::~MainWindow(){
+MainWindow::~MainWindow() {
+	handler.write_json();
 	stop_engine();
 	delete ui;
   
 }
 
-void MainWindow::handlebtnStart(){
+void MainWindow::handlebtnStartStop(){
     clicker_engine_toggle();
 }
 
-void MainWindow::handlebtnStop(){
-    clicker_engine_toggle();
-}
 
 void MainWindow::handlechangedTimer(){
     int mstime = ui->hurBox->value() * 3600000 + ui->minBox->value() * 60000 + ui->secBox->value() * 1000 + ui->milSecBox->value();
@@ -54,7 +53,7 @@ void MainWindow::handlechangedTimer(){
     clicker_engine_timer(mstime);
 }
 
-void MainWindow::handleHotkeyChange(const QKeySequence &keySequence) {
+ void MainWindow::handleHotkeyChange(const QKeySequence &keySequence) { // Terrifying
 	hotkey = keySequence;
 	register_new_hotkey(&hotkey);
 }
