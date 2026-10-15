@@ -1,3 +1,5 @@
+#pragma once
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "inifynityengine.hpp"
@@ -11,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
   ui->leftClick->toggle();
 
 
+  load_settings();
+  
   start_engine();
   register_new_hotkey(&hotkey);
   EngineBridge *bridge = get_engine_bridge();
@@ -54,8 +58,11 @@ void MainWindow::handlechangedTimer(){
 }
 
  void MainWindow::handleHotkeyChange(const QKeySequence &keySequence) { // Terrifying
-	hotkey = keySequence;
-	register_new_hotkey(&hotkey);
+   QKeySequence hotkey = keySequence;
+   if (sender() != ui->edithotKey) {
+	   ui->edithotKey->setKeySequence(hotkey);
+   }
+  	register_new_hotkey(&hotkey);
 }
 
 void MainWindow::handleMacroOn() {
@@ -70,7 +77,7 @@ void MainWindow::handleMacroOff() {
 
 }
 
-void MainWindow::handleTypeSwitch() {
+void MainWindow::handleTypeSwitch() { //TBA
 
 }
 void MainWindow::handleModeSwitch(bool checked) {
@@ -86,4 +93,13 @@ void MainWindow::handleModeSwitch(bool checked) {
   if (checked) {
 	  switch_mode(0);
   }
+}
+
+void MainWindow::load_settings() {
+  configuration config = handler.load_config();
+
+  // Keybind
+  handleHotkeyChange(config.hotkey);
+  
+  
 }  

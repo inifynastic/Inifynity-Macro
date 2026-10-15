@@ -1,4 +1,4 @@
-#pragma once
+#pragma once //TODO: make send_log avaliable here
 
 #include "handledata.h"
 
@@ -6,6 +6,10 @@
 
 #include <QJsonValue>
 #include <QJsonDocument>
+#include <QFile>
+#include <QJsonParseError>
+#include <QString>
+#include <qkeysequence.h>
 
 bool HandleData::save_hotkey(const QKeySequence &Qkey) {
 
@@ -13,8 +17,27 @@ bool HandleData::save_hotkey(const QKeySequence &Qkey) {
   return true;
 }
 
-bool HandleData::load_configuration(void) {
+configuration HandleData::load_config(void) {
+  configuration config;
+  QFile file("settings.json");
 
+  if (!file.open(QIODevice::ReadOnly)) return config; //send_logs here 
+
+  QJsonParseError error;
+  QJsonDocument document = QJsonDocument::fromJson(file.readAll(), &error);
+
+  if (error.error != QJsonParseError::NoError || !document.isObject()) {
+    qWarning() << "Invalid config JSON:" << error.errorString();
+	//send log here too
+    return config;
+  }
+  QJsonObject object = document.object();
+
+  config.hotkey = QKeySequence(object.value("hotkey").toString("F6"));
+  config.interval = object.value("interval").toInt(100);
+  config.clickMode = object.value("cliceMode").toInt(1);
+  
+  return config;
 }  
 
 void HandleData::write_json(void) {

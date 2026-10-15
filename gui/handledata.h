@@ -9,15 +9,16 @@
 
 struct configuration {
   QKeySequence hotkey;
-  int click_interval;
-  int click_mode;
+  int interval;
+  int clickMode;
 };  
 
 class HandleData {
 public:
   bool save_hotkey(const QKeySequence &QKey);
+
   void write_json(void);
-  bool load_configuration(void);
+  configuration load_config(void);
 
 private:
   QJsonObject object;

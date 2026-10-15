@@ -20,7 +20,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
   private slots:
-	HandleData handler;
 
     void handlebtnStartStop();
     void handlechangedTimer();
@@ -34,7 +33,8 @@ private:
   Ui::MainWindow *ui;
 
 	
-    QKeySequence hotkey = QKeySequence(Qt::Key_F6); // Temporary Solution ofc
+    HandleData handler;
+	void load_settings();
 
 };
 #endif // MAINWINDOW_H
