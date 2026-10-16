@@ -45,7 +45,7 @@ configuration HandleData::load_config(void) {
 
   config.hotkey = QKeySequence(object.value("hotkey").toString("F6"));
   config.interval = object.value("interval").toInt(100);
-  config.clickMode = object.value("cliceMode").toInt(1);
+  config.clickMode = object.value("clickMode").toInt(1);
 
   save_json("hotkey", config.hotkey.toString());
   save_json("interval", config.interval);

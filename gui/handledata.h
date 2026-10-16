@@ -9,9 +9,9 @@
 
 
 struct configuration {
-  QKeySequence hotkey;
-  int interval;
-  int clickMode;
+  QKeySequence hotkey = QKeySequence("F6");
+  int interval = 100;
+  int clickMode = 1;
 };  
 
 class HandleData {

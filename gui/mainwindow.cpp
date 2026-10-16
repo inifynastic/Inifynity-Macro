@@ -17,8 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
   start_engine();
   EngineBridge *bridge = get_engine_bridge();
 
-  load_settings();
-
 
     connect(ui->btnStart, &QPushButton::clicked, this, &MainWindow::handlebtnStartStop);
     connect(ui->btnStop, &QPushButton::clicked, this, &MainWindow::handlebtnStartStop);
@@ -34,7 +32,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->edithotKey, &QKeySequenceEdit::keySequenceChanged, this,
             &MainWindow::handleHotkeyChange);
     connect(bridge, &EngineBridge::notify_macro_on, this, &MainWindow::handleMacroOn);
- 	connect(bridge, &EngineBridge::notify_macro_off, this, &MainWindow::handleMacroOff);
+    connect(bridge, &EngineBridge::notify_macro_off, this,
+            &MainWindow::handleMacroOff);
+
+	load_settings();
 
 
 }
