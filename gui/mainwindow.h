@@ -33,6 +33,7 @@ private:
   Ui::MainWindow *ui;
 
 	
+	QKeySequence hotkey;
     HandleData handler;
 	void load_settings();
 

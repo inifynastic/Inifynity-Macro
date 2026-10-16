@@ -17,6 +17,16 @@ bool HandleData::save_hotkey(const QKeySequence &Qkey) {
   return true;
 }
 
+bool HandleData::save_interval(const int interval) {
+  save_json("interval", interval);
+  return true;
+}
+
+bool HandleData::save_mode(const int mode) {
+  save_json("clickMode", mode);
+  return true;
+}  
+
 configuration HandleData::load_config(void) {
   configuration config;
   QFile file("settings.json");
@@ -36,6 +46,10 @@ configuration HandleData::load_config(void) {
   config.hotkey = QKeySequence(object.value("hotkey").toString("F6"));
   config.interval = object.value("interval").toInt(100);
   config.clickMode = object.value("cliceMode").toInt(1);
+
+  save_json("hotkey", config.hotkey.toString());
+  save_json("interval", config.interval);
+  save_json("clickMode",config.clickMode);
   
   return config;
 }  
@@ -54,13 +68,11 @@ void HandleData::write_json(void) {
 }  
 
 QJsonObject HandleData::save_json(const QString& property, const QString& value) {
-  extern QJsonObject object;
   object[property] = value;
   return object;
 }
 
 QJsonObject HandleData::save_json(const QString& property, const int value) {
-	extern QJsonObject object;
 	object[property] = value;
 	return object;
 
