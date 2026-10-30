@@ -7,25 +7,31 @@ qt_standard_project_setup()
 
 qt_add_executable(InifynityMacro
     WIN32 MACOSX_BUNDLE
-    gui/main.cpp
-    gui/mainwindow.cpp
-    gui/mainwindow.h
-    gui/mainwindow.ui
-	gui/handledata.cpp
-	gui/handledata.h
+	
+    gui/include/mainwindow.h
+	gui/include/handledata.h
 
-	engine/enginebridge.hpp
-	engine/enginebridge.cpp
-	engine/inifynityengine.hpp
-	engine/inifynityengine.cpp
-    engine/converter.hpp
-    engine/converter.cpp
-    engine/macroengine.h
-    engine/macroengine.c
-    engine/handlehotkey.h
-    engine/handlehotkey.c
-    engine/enginelogs.h
-    engine/enginelogs.cpp
+	
+    gui/source/main.cpp
+    gui/source/mainwindow.cpp
+    gui/source/mainwindow.ui
+	gui/source/handledata.cpp
+
+    engine/include/enginelogs.h
+    engine/include/handlehotkey.h
+    engine/include/converter.hpp
+	engine/include/enginebridge.hpp	
+    engine/include/macroengine.h
+	engine/include/inifynityengine.hpp
+
+	engine/core/enginebridge.cpp
+    engine/core/macroengine.c
+	engine/core/inifynityengine.cpp
+    
+	engine/hotkey/converter.cpp
+    engine/hotkey/handlehotkey.c
+    
+	engine/logs/enginelogs.cpp
     
     resources/app.rc
 
